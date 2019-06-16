@@ -28,5 +28,5 @@ Results:
     Global minimum =317
     Iteration number = 65
     Global maximum =99991
-Elapsed time is 0.003232
+Elapsed time is 0.003232 s.
 ```
