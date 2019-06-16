@@ -97,7 +97,7 @@ int main(int argc, char** argv){
         std::cout <<"    Global minimum ="<< global_min <<'\n';
         std::cout<<"    Iteration number = "<<iter<<"\n";
         std::cout <<"    Global maximum ="<< global_max <<'\n';
-        printf( "Elapsed time is %f\n",  MPI_Wtime() - tic ); 
+        printf( "Elapsed time is %f .s\n",  MPI_Wtime() - tic ); 
     }
 	
 	MPI_Finalize ( );
