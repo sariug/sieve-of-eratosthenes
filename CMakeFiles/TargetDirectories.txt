@@ -1,0 +1,3 @@
+/home/ugurcan/sieve-of-eratosthenes/CMakeFiles/rebuild_cache.dir
+/home/ugurcan/sieve-of-eratosthenes/CMakeFiles/sieve_of_eratosthenes.dir
+/home/ugurcan/sieve-of-eratosthenes/CMakeFiles/edit_cache.dir

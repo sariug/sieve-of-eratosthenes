@@ -4,22 +4,30 @@
 #include <vector>
 #include <math.h>
 #include <algorithm>
+#include <numeric>
 #include <climits> 
-#define INF 10000000
 /*
  Sieve of ERATOSTHENES
- 16.06.2019
+ 8.07.2019
  Uğurcan Sarı
 */
-using ULL = unsigned long long;
+using ULL = long long int;
 int main(int argc, char** argv){
 
-	ULL N = atoll(argv[1]);
 	int rank, nproc;
-	
+		// Allocate variables	
+	ULL global_min=0, local_min=std::numeric_limits<ULL>::max(), iter = 0, sqrt_n;
+    ULL local_max, global_max, domain_size, size_of_before_domains, iter_start;
+    std::vector<ULL> temp, domain;
+	int rem;	div_t divresult;
+
+	// Time 
+    double tic; 
+
 	MPI_Init (&argc, &argv);
 	MPI_Comm_rank (MPI_COMM_WORLD, &rank );
 	MPI_Comm_size(MPI_COMM_WORLD, &nproc);
+    ULL N = atoll(argv[1]);
     if(rank==0)std::cout<<"Number entered is : " << N<<std::endl;
     // Make sure the entered number is larger number of processors being used.
     if(rank == 0 && nproc>=N){
@@ -29,19 +37,9 @@ int main(int argc, char** argv){
     MPI_Barrier(MPI_COMM_WORLD);
 
 
-	// Time 
-    double tic; 
     tic = MPI_Wtime(); 
-	// Allocate variables	
-	ULL global_min=0, local_min=INF, iter = 0, sqrt_n;
-    ULL domain_size, size_of_before_domains, iter_start;	
-    ULL local_max, global_max;
-    std::vector<ULL> temp;
-	int rem;
-	std::vector<ULL> domain;
 
 	// Domain decomposition
-	div_t divresult;
 	divresult = div(N, nproc);
 	rem = divresult.rem;
     if(rank==nproc-1) domain_size = divresult.quot+rem;
@@ -61,12 +59,13 @@ int main(int argc, char** argv){
     
     iter_start =  size_of_before_domains+1;
 	// Fill the domain 
-    for(ULL i =0; i<domain_size;i++)
+    for(auto &subdomain:domain)
     {
-        if(rank == 0) domain[i] = iter_start+i+1;
-        else domain[i] = iter_start+i;
+        if(rank == 0) subdomain = iter_start+iter+1;
+        else subdomain = iter_start+iter;
+        iter++;
     }
-
+    iter = 0;
     temp.reserve(domain_size);
 	
     sqrt_n = sqrt(N);
@@ -75,7 +74,7 @@ int main(int argc, char** argv){
 	for(;;){
 		local_min = domain[0];
 		// MPI all reduce
-		MPI_Allreduce(&local_min, &global_min, 1, MPI_UNSIGNED_LONG_LONG, MPI_MIN,MPI_COMM_WORLD);
+		MPI_Allreduce(&local_min, &global_min, 1, MPI_LONG_LONG_INT, MPI_MIN,MPI_COMM_WORLD);
 		if(global_min>= sqrt_n)
 			break;
 		// Delete the onces we have
@@ -89,7 +88,7 @@ int main(int argc, char** argv){
 		iter++;
 	}
     local_max = *std::max_element(domain.begin(), domain.end());
-    MPI_Reduce(&local_max, &global_max, 1, MPI_UNSIGNED_LONG_LONG, MPI_MAX, 0, MPI_COMM_WORLD );
+    MPI_Reduce(&local_max, &global_max, 1, MPI_LONG_LONG, MPI_MAX, 0, MPI_COMM_WORLD );
     
     if (rank ==0)
     {
@@ -97,7 +96,7 @@ int main(int argc, char** argv){
         std::cout <<"    Global minimum ="<< global_min <<'\n';
         std::cout<<"    Iteration number = "<<iter<<"\n";
         std::cout <<"    Global maximum ="<< global_max <<'\n';
-        printf( "Elapsed time is %f .s\n",  MPI_Wtime() - tic ); 
+        printf( "Elapsed time is %f s.\n",  MPI_Wtime() - tic ); 
     }
 	
 	MPI_Finalize ( );
