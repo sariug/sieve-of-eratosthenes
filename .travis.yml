@@ -2,12 +2,12 @@ sudo: false
 language: cpp
 cache:
   directories:
-  - mpich
+  - openmpi
 before_install:
   - sh ./get_omp.sh
 script:
   - mkdir build && cd build
-  - cmake ..
+  - cmake -DCMAKE_CXX_COMPILER=$COMPILER ..
   - make
   - ./mpich/bin/mpirun -np 4 ./sieve_of_eratosthenes
 
