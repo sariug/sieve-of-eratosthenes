@@ -1,1 +1,0 @@
-/usr/bin/c++   -std=c++17  -fopenmp -Wall -Ofast -funroll-loops -msse2 -ftree-vectorize -Wshadow -Wfloat-equal -Wextra -march=native    CMakeFiles/sieve_of_eratosthenes.dir/sieve_of_eratosthenes.cpp.o  -o sieve_of_eratosthenes -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so 

@@ -1,18 +1,10 @@
 sudo: false
 language: cpp
-addons:
-  apt:
-    packages:
-    - cmake
-cache:
-  directories:
-  - openmpi
-before_install:
-  - sh ./get_omp.sh
+install:
+  - sudo apt-get install libcr-dev mpich2 mpich2-doc
 script:
   - mkdir build && cd build
-  - whereis openmpi
-  - cmake -DCMAKE_CXX_COMPILER=$COMPILER ..
+  - cmake ..
   - make
   - ./mpich/bin/mpirun -np 4 ./sieve_of_eratosthenes
 
