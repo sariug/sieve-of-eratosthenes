@@ -1,7 +1,7 @@
 sudo: false
 language: cpp
 install:
-  - sudo apt-get install libcr-dev mpich2 mpich2-doc
+  - sudo apt-get install libcr-dev mpich2 
 script:
   - mkdir build && cd build
   - cmake ..
