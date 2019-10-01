@@ -7,7 +7,7 @@ before_install:
   - sh ./get_mpich.sh
 script:
   - mkdir build && cd build
-  - ls ../../..
+  - ls $TRAVIS_BUILD_DIR
   - ls ../../../..
   - cmake  -DMPI_C_COMPILER=$PWD/../mpich/bin/mpicc -DMPI_C_INCLUDE_PATH=$PWD/../mpich/include -DMPIEXEC=`pwd`/../mpich/bin/mpirun ..
   - make
