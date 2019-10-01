@@ -6,5 +6,7 @@ cache:
 before_install:
   - sh ./get_mpich.sh
 script:
-  - make test
-  - ./mpich/bin/mpirun -np 4 ./test
+  - mkdir build && cd build
+  - cmake ..
+  - make
+  - ./mpich/bin/mpirun -np 4 ./sieve_of_eratosthenes
