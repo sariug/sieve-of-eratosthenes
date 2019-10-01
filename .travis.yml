@@ -11,7 +11,7 @@ before_install:
   - sh ./get_omp.sh
 script:
   - mkdir build && cd build
-  - cmake --version
+  - whereis openmpi
   - cmake -DCMAKE_CXX_COMPILER=$COMPILER ..
   - make
   - ./mpich/bin/mpirun -np 4 ./sieve_of_eratosthenes
