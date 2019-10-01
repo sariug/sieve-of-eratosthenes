@@ -7,6 +7,8 @@ before_install:
   - sh ./get_mpich.sh
 script:
   - mkdir build && cd build
+  - ls ..
+  - ls ../..
   - cmake  -DMPI_C_COMPILER='pwd`/../mpich/bin/mpicc -DMPI_C_INCLUDE_PATH=`pwd`/../mpich/include -DMPIEXEC=`pwd`/../mpich/bin/mpirun ..
   - make
   - ./mpich/bin/mpirun -np 4 ./sieve_of_eratosthenes
