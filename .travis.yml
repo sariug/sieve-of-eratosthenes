@@ -4,12 +4,10 @@ cache:
   directories:
   - mpich
 before_install:
-  - sh ./get_mpich.sh
+  - sh ./get_omp.sh
 script:
   - mkdir build && cd build
-  - ls $TRAVIS_BUILD_DIR
-  - ls ../../../..
-  - cmake  -DMPI_C_COMPILER=$PWD/../mpich/bin/mpicc -DMPI_C_INCLUDE_PATH=$PWD/../mpich/include -DMPIEXEC=`pwd`/../mpich/bin/mpirun ..
+  - cmake ..
   - make
   - ./mpich/bin/mpirun -np 4 ./sieve_of_eratosthenes
 
